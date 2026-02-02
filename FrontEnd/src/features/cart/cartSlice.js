@@ -4,6 +4,10 @@ const initialState = {
   items: [],
   totalQuantity: 0,
   totalAmount: 0,
+  notification: {
+    isVisible: false,
+    message: ''
+  }
 };
 
 const cartSlice = createSlice({
@@ -22,7 +26,7 @@ const cartSlice = createSlice({
           id: newItem.id,
           name: newItem.name,
           price: newItem.price,
-          image: newItem.image, // Ensure image is passed
+          image: newItem.image,
           quantity: 1,
           totalPrice: newItem.price
         });
@@ -30,6 +34,12 @@ const cartSlice = createSlice({
         existingItem.quantity++;
         existingItem.totalPrice += newItem.price;
       }
+      
+      // Show notification
+      state.notification = {
+        isVisible: true,
+        message: 'Added to your cart'
+      };
     },
     removeItemFromCart(state, action) {
       const id = action.payload;
@@ -61,9 +71,19 @@ const cartSlice = createSlice({
       state.items = [];
       state.totalQuantity = 0;
       state.totalAmount = 0;
+    },
+    hideNotification(state) {
+      state.notification.isVisible = false;
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase('auth/logout', (state) => {
+      state.items = [];
+      state.totalQuantity = 0;
+      state.totalAmount = 0;
+    });
   },
 });
 
-export const { addItemToCart, removeItemFromCart, deleteItem, clearCart } = cartSlice.actions;
+export const { addItemToCart, removeItemFromCart, deleteItem, clearCart, hideNotification } = cartSlice.actions;
 export default cartSlice.reducer;

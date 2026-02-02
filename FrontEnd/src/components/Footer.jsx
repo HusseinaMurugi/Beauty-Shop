@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Mail } from 'lucide-react';
 
 const Footer = () => {
@@ -24,20 +25,20 @@ const Footer = () => {
           <div>
             <h4 className="font-serif font-bold text-gray-900 mb-6">Shop</h4>
             <ul className="space-y-3 text-sm text-gray-500">
-              <li><a href="#" className="hover:text-pink-600 transition">Skincare</a></li>
-              <li><a href="#" className="hover:text-pink-600 transition">Haircare</a></li>
-              <li><a href="#" className="hover:text-pink-600 transition">Makeup</a></li>
-              <li><a href="#" className="hover:text-pink-600 transition">New Arrivals</a></li>
+              <li><Link to="/skincare" className="hover:text-pink-600 transition">Skincare</Link></li>
+              <li><Link to="/haircare" className="hover:text-pink-600 transition">Haircare</Link></li>
+              <li><Link to="/makeup" className="hover:text-pink-600 transition">Makeup</Link></li>
+              <li><Link to="/new-arrivals" className="hover:text-pink-600 transition">New Arrivals</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-serif font-bold text-gray-900 mb-6">Support</h4>
             <ul className="space-y-3 text-sm text-gray-500">
-              <li><a href="#" className="hover:text-pink-600 transition">Help Center</a></li>
-              <li><a href="#" className="hover:text-pink-600 transition">Shipping & Returns</a></li>
-              <li><a href="#" className="hover:text-pink-600 transition">Order Tracking</a></li>
-              <li><a href="#" className="hover:text-pink-600 transition">Contact Us</a></li>
+              <li><Link to="/contact" className="hover:text-pink-600 transition">Help Center</Link></li>
+              <li><Link to="/contact" className="hover:text-pink-600 transition">Shipping & Returns</Link></li>
+              <li><Link to="/order-tracking" className="hover:text-pink-600 transition">Order Tracking</Link></li>
+              <li><Link to="/contact" className="hover:text-pink-600 transition">Contact Us</Link></li>
             </ul>
           </div>
 

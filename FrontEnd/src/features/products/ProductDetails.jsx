@@ -105,7 +105,7 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          <div className="text-3xl font-bold text-gray-900">Kshs. {(product.price * 130).toLocaleString()}</div>
+          <div className="text-3xl font-bold text-gray-900">Kshs. {product.price.toLocaleString()}</div>
 
           <p className="text-gray-600 leading-relaxed">
             {product.description} Experience the ultimate in luxury. Formulated with premium ingredients to revitalize and protect, ensuring you look your best every single day.

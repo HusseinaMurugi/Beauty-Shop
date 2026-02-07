@@ -34,7 +34,7 @@ const Cart = () => {
               
               <div className="flex-grow">
                 <h3 className="font-serif text-lg text-gray-900">{item.name}</h3>
-                <p className="text-gray-500 text-sm mb-2">Kshs. {(item.price * 130).toLocaleString()}</p>
+                <p className="text-gray-500 text-sm mb-2">Kshs. {item.price.toLocaleString()}</p>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center border border-gray-200 rounded-full px-3 py-1 space-x-3">
                     <button onClick={() => dispatch(removeItemFromCart(item.id))} className="text-gray-500 hover:text-gray-900"><Minus size={14}/></button>
@@ -45,7 +45,7 @@ const Cart = () => {
               </div>
 
               <div className="text-right">
-                <p className="font-bold text-lg mb-2">Kshs. {(item.totalPrice * 130).toLocaleString()}</p>
+                <p className="font-bold text-lg mb-2">Kshs. {item.totalPrice.toLocaleString()}</p>
                 <button onClick={() => dispatch(deleteItem(item.id))} className="text-red-400 hover:text-red-600 p-2">
                   <Trash2 size={18} />
                 </button>
@@ -61,7 +61,7 @@ const Cart = () => {
             <div className="space-y-4 mb-6 border-b border-gray-200 pb-6">
               <div className="flex justify-between text-gray-600">
                 <span>Subtotal</span>
-                <span>Kshs. {(totalAmount * 130).toLocaleString()}</span>
+                <span>Kshs. {totalAmount.toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-gray-600">
                 <span>Shipping</span>
@@ -70,7 +70,7 @@ const Cart = () => {
             </div>
             <div className="flex justify-between font-bold text-xl mb-8">
               <span>Total</span>
-              <span>Kshs. {(totalAmount * 130).toLocaleString()}</span>
+              <span>Kshs. {totalAmount.toLocaleString()}</span>
             </div>
             <button 
               onClick={() => navigate('/checkout')}

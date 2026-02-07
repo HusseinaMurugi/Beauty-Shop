@@ -134,7 +134,7 @@ const Navbar = () => {
                     <img src={product.image} alt={product.name} className="w-10 h-10 object-cover rounded-lg" />
                     <div>
                       <p className="font-medium text-gray-900 text-sm">{product.name}</p>
-                      <p className="text-xs text-gray-500">{product.category} • Kshs. {(product.price * 130).toLocaleString()}</p>
+                      <p className="text-xs text-gray-500">{product.category} • Kshs. {product.price.toLocaleString()}</p>
                     </div>
                   </button>
                 ))}

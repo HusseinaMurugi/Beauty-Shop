@@ -53,7 +53,7 @@ const Wishlist = () => {
                 <p className="text-gray-500 text-sm mb-3">{product.category}</p>
                 
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-lg text-gray-900">${product.price.toFixed(2)}</span>
+                  <span className="font-bold text-lg text-gray-900">Kshs. {product.price.toLocaleString()}</span>
                   <button 
                     onClick={() => handleAddToCart(product)}
                     className="bg-gray-900 text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide hover:bg-gray-800 transition-colors flex items-center gap-2"

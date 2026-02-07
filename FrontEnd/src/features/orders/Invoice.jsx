@@ -77,7 +77,7 @@ const Invoice = () => {
               <tr key={idx} className="border-b border-gray-50">
                 <td className="py-3">{item.name}</td>
                 <td className="py-3 text-center">{item.quantity}</td>
-                <td className="py-3 text-right">Kshs. {(item.totalPrice * 130).toLocaleString()}</td>
+                <td className="py-3 text-right">Kshs. {item.totalPrice.toLocaleString()}</td>
               </tr>
             ))}
           </tbody>
@@ -85,7 +85,7 @@ const Invoice = () => {
 
         <div className="flex justify-between items-center pt-4">
           <span className="font-bold text-lg">Total Paid</span>
-          <span className="font-bold text-2xl text-pink-600">Kshs. {(order.total * 130).toLocaleString()}</span>
+          <span className="font-bold text-2xl text-pink-600">Kshs. {order.total.toLocaleString()}</span>
         </div>
       </div>
 

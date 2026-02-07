@@ -45,7 +45,7 @@ const NewArrivals = () => {
               </p>
               <div className="flex items-center gap-4">
                 <span className="text-2xl font-bold text-gray-900">
-                  Kshs. {(newProducts[0].price * 130).toLocaleString()}
+                  Kshs. {newProducts[0].price.toLocaleString()}
                 </span>
                 <button className="px-6 py-3 bg-gray-900 text-white rounded-full font-medium hover:bg-gray-800 transition-colors">
                   Shop Now

@@ -116,7 +116,7 @@ const ContactUs = () => {
             <div className="space-y-3 text-sm">
               <div>
                 <p className="font-medium text-gray-900">Shipping & Returns</p>
-                <p className="text-gray-600">Free shipping on orders over $50. 30-day return policy.</p>
+                <p className="text-gray-600">Free shipping on orders over Kshs. 6,500. 30-day return policy.</p>
               </div>
               <div>
                 <p className="font-medium text-gray-900">Order Tracking</p>

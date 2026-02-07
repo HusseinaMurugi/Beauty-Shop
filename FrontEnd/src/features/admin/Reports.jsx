@@ -161,7 +161,7 @@ const Reports = () => {
                 <div className="grid grid-cols-3 gap-4">
                   <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl">
                     <p className="text-sm text-green-600 font-medium">Total Revenue</p>
-                    <p className="text-2xl font-bold text-green-900">$45,678</p>
+                    <p className="text-2xl font-bold text-green-900">Kshs. 5,937,140</p>
                   </div>
                   <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl">
                     <p className="text-sm text-blue-600 font-medium">Orders</p>
@@ -169,7 +169,7 @@ const Reports = () => {
                   </div>
                   <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl">
                     <p className="text-sm text-purple-600 font-medium">Avg. Order</p>
-                    <p className="text-2xl font-bold text-purple-900">$37.02</p>
+                    <p className="text-2xl font-bold text-purple-900">Kshs. 4,813</p>
                   </div>
                 </div>
               </div>

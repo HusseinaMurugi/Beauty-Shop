@@ -12,19 +12,19 @@ const EditProduct = () => {
   
   const product = products.find(p => p.id === parseInt(id));
   
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState(() => ({
     name: product?.name || '',
     category: product?.category || '',
     price: product?.price || '',
     description: product?.description || '',
-    stock: 50,
+    stock: product?.stock || 50,
     image: product?.image || '',
     rating: product?.rating || 4.5,
     isNew: product?.isNew || false
-  });
+  }));
   
   const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(product?.image || '');
+  const [imagePreview, setImagePreview] = useState(() => product?.image || '');
   const [uploadMethod, setUploadMethod] = useState('url');
   const fileInputRef = useRef(null);
 
@@ -153,7 +153,7 @@ const EditProduct = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Price (USD)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Price (KES)</label>
               <input
                 type="number"
                 name="price"

@@ -97,7 +97,7 @@ const ManageOrders = () => {
         order.customer.name,
         order.customer.email,
         order.date,
-        `$${order.total.toFixed(2)}`,
+        `Kshs. ${order.total.toLocaleString()}`,
         order.status,
         order.paymentMethod
       ])
@@ -129,9 +129,9 @@ Email: ${order.customer.email}
 Date: ${order.date}
 
 Items:
-${order.items.map(item => `${item.name} x${item.quantity} - $${item.price.toFixed(2)}`).join('\n')}
+${order.items.map(item => `${item.name} x${item.quantity} - Kshs. ${item.price.toLocaleString()}`).join('\n')}
 
-Total: $${order.total.toFixed(2)}
+Total: Kshs. ${order.total.toLocaleString()}
 Payment Method: ${order.paymentMethod}
 Shipping Address: ${order.shippingAddress}
     `;

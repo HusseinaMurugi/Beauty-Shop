@@ -156,7 +156,7 @@ const Home = () => {
       <section className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { icon: Truck, title: "Free Shipping", desc: "On orders over $50" },
+            { icon: Truck, title: "Free Shipping", desc: "On orders over Kshs. 6,500" },
             { icon: ShieldCheck, title: "Secure Payment", desc: "100% protected checkout" },
             { icon: RefreshCw, title: "Easy Returns", desc: "30-day return policy" },
             { icon: Headphones, title: "24/7 Support", desc: "Dedicated customer care" }

@@ -152,7 +152,7 @@ const ManageProducts = () => {
                 </div>
                 <div className="flex items-center gap-1">
                   <DollarSign size={12} />
-                  <span>${product.price}</span>
+                  <span>Kshs. {product.price.toLocaleString()}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Package size={12} />

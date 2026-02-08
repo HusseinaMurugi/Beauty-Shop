@@ -7,13 +7,64 @@ from app.routes.auth import get_current_user
 from app.utils.mpesa import initiate_stk_push
 from app.utils.invoice import generate_invoice_pdf
 from app.utils.email import send_invoice_email
-import uuid
+from app.schemas import OrderCreate, OrderDetailResponse
+from app.services.order_service import create_order_record, fetch_order_by_public_id
+import uuid, time
+import json
 
 # 1. Define the schema to fetch phone number from the request body
 class CheckoutRequest(BaseModel):
     phone_number: str
 
 router = APIRouter()
+
+
+@router.post("/", response_model=OrderDetailResponse)
+def create_order(
+    payload: OrderCreate,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db)
+):
+    """
+    Public endpoint used by frontend to create an order.
+    Returns an order object shaped like the frontend expects.
+    """
+    # create order record and return structured response
+    order_obj = create_order_record(db, payload)
+
+    # Generate PDF and send email in background
+    try:
+        pdf_path = generate_invoice_pdf(order_obj.invoice_number or order_obj.public_id, order_obj.total_amount, (order_obj.get_customer() or {}).get('email'), order_obj.get_items())
+        background_tasks.add_task(send_invoice_email, recipient_email=(order_obj.get_customer() or {}).get('email'), invoice_no=order_obj.invoice_number or order_obj.public_id, pdf_path=pdf_path)
+    except Exception:
+        pass
+
+    resp = {
+        "id": order_obj.public_id,
+        "createdAt": order_obj.created_at,
+        "customer": order_obj.get_customer(),
+        "items": order_obj.get_items(),
+        "total": order_obj.total_amount,
+        "status": order_obj.status
+    }
+    return resp
+
+
+@router.get("/{order_id}", response_model=OrderDetailResponse)
+def get_order(order_id: str, db: Session = Depends(get_db)):
+    """Fetch order by public id used by frontend invoice page."""
+    order_obj = fetch_order_by_public_id(db, order_id)
+    if not order_obj:
+        raise HTTPException(status_code=404, detail="Order not found")
+
+    return {
+        "id": order_obj.public_id,
+        "createdAt": order_obj.created_at,
+        "customer": order_obj.get_customer(),
+        "items": order_obj.get_items(),
+        "total": order_obj.total_amount,
+        "status": order_obj.status
+    }
 
 @router.post("/checkout")
 def checkout(

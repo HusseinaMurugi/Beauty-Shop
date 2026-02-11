@@ -23,6 +23,12 @@ const AdminLayout = ({ children }) => {
     setShowLogoutModal(true);
   };
 
+  const handleSignOut = () => {
+    setPassword('');
+    setPasswordError('');
+    setShowLogoutModal(true);
+  };
+
   const confirmLogout = () => {
     // Validate password (hardcoded for now since bcrypt is broken)
     if (user?.email === 'admin@gmail.com' && password === 'admin123') {
@@ -41,8 +47,7 @@ const AdminLayout = ({ children }) => {
     { name: 'Orders', href: '/admin/orders', icon: ShoppingCart },
     { name: 'Users', href: '/admin/users', icon: Users },
     { name: 'Support', href: '/admin/support', icon: MessageSquare },
-    { name: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
-    { name: 'Reports', href: '/admin/reports', icon: FileText },
+    { name: 'Analytics & Reports', href: '/admin/analytics', icon: BarChart3 },
     { name: 'Roles', href: '/admin/roles', icon: UserCheck },
   ];
 
@@ -112,7 +117,7 @@ const AdminLayout = ({ children }) => {
         {/* Logout */}
         <div className="p-3">
           <button
-            onClick={confirmLogout}
+            onClick={handleSignOut}
             className="w-full flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-colors"
           >
             <LogOut size={18} className="mr-4 flex-shrink-0" />

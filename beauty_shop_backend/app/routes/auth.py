@@ -80,6 +80,12 @@ def update_profile(updates: dict, db: Session = Depends(get_db), current_user: U
         current_user.password = hash_password(updates['password'])
     if 'phone_number' in updates:
         current_user.phone_number = updates['phone_number']
+    if 'firstName' in updates:
+        current_user.first_name = updates['firstName']
+    if 'lastName' in updates:
+        current_user.last_name = updates['lastName']
+    if 'address' in updates:
+        current_user.address = updates['address']
     db.commit()
     db.refresh(current_user)
     return current_user

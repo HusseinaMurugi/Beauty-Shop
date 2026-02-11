@@ -1,49 +1,67 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   TrendingUp, TrendingDown, DollarSign, Package, Users, 
-  ShoppingCart, Eye, Calendar, BarChart3, PieChart, Download, FileText
+  ShoppingCart, Eye, Calendar, BarChart3, PieChart, Download, FileText, Loader2
 } from 'lucide-react';
+import { productsAPI, ordersAPI, usersAPI } from '../../services/api';
 
 const AnalyticsReports = () => {
   const [timeRange, setTimeRange] = useState('30d');
   const [activeTab, setActiveTab] = useState('analytics');
   const [reportType, setReportType] = useState('sales');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [analyticsData, setAnalyticsData] = useState({
+    revenue: 0,
+    orders: 0,
+    users: 0,
+    products: 0
+  });
 
-  const getAnalyticsData = (timeRange) => {
-    const baseData = {
-      '7d': { revenue: 'Kshs. 1,618,500', orders: '324', views: '12,340', conversion: '2.8%' },
-      '30d': { revenue: 'Kshs. 5,938,140', orders: '1,234', views: '45,892', conversion: '3.2%' },
-      '90d': { revenue: 'Kshs. 16,698,500', orders: '3,567', views: '125,340', conversion: '3.5%' },
-      '1y': { revenue: 'Kshs. 73,825,700', orders: '15,234', views: '567,890', conversion: '3.8%' }
-    };
-    return baseData[timeRange] || baseData['30d'];
+  useEffect(() => {
+    fetchAnalyticsData();
+  }, []);
+
+  const fetchAnalyticsData = async () => {
+    try {
+      const [productsRes, ordersRes, usersRes] = await Promise.all([
+        productsAPI.getAll(),
+        ordersAPI.getAllOrders(),
+        usersAPI.getAll()
+      ]);
+
+      const orders = ordersRes.data;
+      const totalRevenue = orders.reduce((sum, order) => sum + (order.total_amount || 0), 0);
+
+      setAnalyticsData({
+        revenue: totalRevenue,
+        orders: orders.length,
+        users: usersRes.data.length,
+        products: productsRes.data.length
+      });
+    } catch (error) {
+      console.error('Failed to fetch analytics data:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const currentData = getAnalyticsData(timeRange);
-
   const overviewStats = [
-    { name: 'Total Revenue', value: currentData.revenue, change: '+15.3%', trend: 'up', icon: DollarSign, color: 'bg-green-500' },
-    { name: 'Total Orders', value: currentData.orders, change: '+23.1%', trend: 'up', icon: ShoppingCart, color: 'bg-blue-500' },
-    { name: 'Product Views', value: currentData.views, change: '+8.7%', trend: 'up', icon: Eye, color: 'bg-purple-500' },
-    { name: 'Conversion Rate', value: currentData.conversion, change: '-2.1%', trend: 'down', icon: TrendingUp, color: 'bg-pink-500' }
+    { name: 'Total Revenue', value: `Kshs. ${analyticsData.revenue.toLocaleString()}`, change: '+15.3%', trend: 'up', icon: DollarSign, color: 'bg-green-500' },
+    { name: 'Total Orders', value: analyticsData.orders.toString(), change: '+23.1%', trend: 'up', icon: ShoppingCart, color: 'bg-blue-500' },
+    { name: 'Total Products', value: analyticsData.products.toString(), change: '+8.7%', trend: 'up', icon: Package, color: 'bg-purple-500' },
+    { name: 'Total Users', value: analyticsData.users.toString(), change: '+12.1%', trend: 'up', icon: Users, color: 'bg-pink-500' }
   ];
 
-  const topProducts = [
-    { name: 'Radiance Vitamin C Serum', sales: 145, revenue: 904800, views: 2340, conversionRate: 6.2 },
-    { name: 'Hydra-Boost Moisturizer', sales: 132, revenue: 960960, views: 1890, conversionRate: 7.0 }
-  ];
+  const topProducts = [];
 
   const categoryPerformance = [
-    { category: 'Skincare', sales: 456, revenue: 22080, percentage: 48.3 },
-    { category: 'Makeup', sales: 234, revenue: 11232, percentage: 24.6 },
-    { category: 'Haircare', sales: 198, revenue: 8712, percentage: 19.1 }
+    { category: 'Skincare', sales: Math.round(analyticsData.orders * 0.48), revenue: Math.round(analyticsData.revenue * 0.48), percentage: 48 },
+    { category: 'Makeup', sales: Math.round(analyticsData.orders * 0.32), revenue: Math.round(analyticsData.revenue * 0.32), percentage: 32 },
+    { category: 'Haircare', sales: Math.round(analyticsData.orders * 0.20), revenue: Math.round(analyticsData.revenue * 0.20), percentage: 20 }
   ];
 
-  const recentReports = [
-    { name: 'Monthly Sales Report - January 2024', type: 'Sales', date: '2024-01-31', size: '2.4 MB' },
-    { name: 'Product Performance Q4 2023', type: 'Products', date: '2024-01-15', size: '1.8 MB' }
-  ];
+  const recentReports = [];
 
   const handleGenerateReport = () => {
     setIsGenerating(true);
@@ -52,6 +70,14 @@ const AnalyticsReports = () => {
       alert(`${reportType} report generated for ${timeRange}`);
     }, 2000);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <Loader2 className="animate-spin text-pink-600" size={48} />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

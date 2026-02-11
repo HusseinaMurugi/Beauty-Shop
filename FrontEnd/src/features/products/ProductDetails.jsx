@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductById } from './productsSlice';
 import { addItemToCart } from '../cart/cartSlice';
+import { addToWishlist } from '../wishlist/wishlistSlice';
 import { Star, Truck, ShieldCheck, Minus, Plus, ShoppingBag, Heart, User } from 'lucide-react';
 import axios from 'axios';
 
@@ -47,6 +48,10 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
     for(let i=0; i<qty; i++) {
         dispatch(addItemToCart(product));
     }
@@ -54,6 +59,7 @@ const ProductDetails = () => {
 
   const toggleLike = () => {
     setIsLiked(!isLiked);
+    dispatch(addToWishlist(product));
   };
 
   const handleSubmitReview = async (e) => {

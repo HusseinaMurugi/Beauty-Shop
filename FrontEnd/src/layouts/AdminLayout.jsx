@@ -38,11 +38,12 @@ const AdminLayout = ({ children }) => {
     try {
       // Get email from user object
       const userEmail = user?.email || 'admin@gmail.com';
+      const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
       
       console.log('Attempting logout with email:', userEmail);
       
       // Verify password by attempting login with current credentials
-      const response = await fetch('http://localhost:8000/api/auth/login', {
+      const response = await fetch(`${apiUrl}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

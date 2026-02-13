@@ -29,15 +29,44 @@ const AdminLayout = ({ children }) => {
     setShowLogoutModal(true);
   };
 
-  const confirmLogout = () => {
-    // Validate password (hardcoded for now since bcrypt is broken)
-    if (user?.email === 'admin@gmail.com' && password === 'admin123') {
-      dispatch(logout());
-      dispatch({ type: 'cart/clearCart' });
-      dispatch({ type: 'wishlist/clearWishlist' });
-      navigate('/');
-    } else {
-      setPasswordError('Incorrect password');
+  const confirmLogout = async () => {
+    if (!password) {
+      setPasswordError('Please enter your password');
+      return;
+    }
+
+    try {
+      // Get email from user object
+      const userEmail = user?.email || 'admin@gmail.com';
+      
+      console.log('Attempting logout with email:', userEmail);
+      
+      // Verify password by attempting login with current credentials
+      const response = await fetch('http://localhost:8000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email: userEmail,
+          password: password.trim()
+        })
+      });
+      
+      console.log('Login response status:', response.status);
+      
+      if (response.ok) {
+        dispatch(logout());
+        dispatch({ type: 'cart/clearCart' });
+        dispatch({ type: 'wishlist/clearWishlist' });
+        setShowLogoutModal(false);
+        navigate('/');
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Login failed:', errorData);
+        setPasswordError(errorData.detail || 'Incorrect password');
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+      setPasswordError('Failed to verify password. Please try again.');
     }
   };
 

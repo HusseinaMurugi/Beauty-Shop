@@ -12,10 +12,16 @@ app = FastAPI(title="Project 8: Beauty Shop API")
 # CORS Configuration - Must be before routes
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins for development
+    allow_origins=[
+        "https://beauty-shop-nu.vercel.app",
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "*"  # Allow all for development
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 # These assume that in your routes/__init__.py, you have:
